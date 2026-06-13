@@ -279,10 +279,10 @@ p {
     pointer-events: all;
 }
 
-.back-btn {
-    position: absolute;
+ .back-btn {
+    position: fixed;
     top: 30px;
-    left: 40px;
+    left: calc(25% + 40px);
     background: transparent;
     border: 1px solid rgba(220, 180, 255, 0.3);
     color: rgba(220, 180, 255, 0.8);
@@ -292,7 +292,21 @@ p {
     font-family: "Segoe UI", sans-serif;
     cursor: pointer;
     transition: background 0.3s, color 0.3s;
+    z-index: 300;
 }
+
+.back-btn:hover {
+    background: rgba(220, 180, 255, 0.1);
+    color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .back-btn {
+        left: 16px;
+        top: 16px;
+    }
+}
+    
 
 .back-btn:hover {
     background: rgba(220, 180, 255, 0.1);
@@ -982,5 +996,125 @@ p {
 
     .polaroid {
         max-width: 280px;
+    }
+}
+
+/* ===== BIRTHDAY SELECTOR ===== */
+.bday-selector {
+    position: fixed;
+    top: 0;
+    left: 25%;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 5, 20, 0.97);
+    z-index: 300;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 60px;
+}
+
+.bday-selector.visible {
+    display: flex;
+    animation: fadeUp 0.6s ease forwards;
+}
+
+.bday-selector-title {
+    font-size: 1.4rem;
+    color: rgba(220, 180, 255, 0.9);
+    font-family: "Segoe UI", sans-serif;
+    letter-spacing: 0.08em;
+    font-style: italic;
+    text-shadow: 0 0 20px rgba(180, 120, 255, 0.4);
+    margin: 0;
+}
+
+.bday-cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.bday-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(220, 180, 255, 0.2);
+    border-radius: 16px;
+    padding: 30px 28px;
+    min-width: 150px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.3s, border-color 0.3s, transform 0.3s;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+.bday-card:hover {
+    background: rgba(220, 180, 255, 0.08);
+    border-color: rgba(220, 180, 255, 0.6);
+    transform: translateY(-6px);
+}
+
+.bday-card-year {
+    font-size: 2rem;
+    font-weight: 700;
+    color: rgba(220, 180, 255, 0.9);
+    font-family: "Segoe UI", sans-serif;
+    text-shadow: 0 0 20px rgba(180, 120, 255, 0.5);
+}
+
+.bday-card-sub {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: "Segoe UI", sans-serif;
+    font-style: italic;
+    letter-spacing: 0.04em;
+}
+
+.bday-card-countdown {
+    cursor: default;
+    border-color: rgba(180, 210, 255, 0.2);
+}
+
+.bday-card-countdown:hover {
+    transform: none;
+    border-color: rgba(180, 210, 255, 0.4);
+    background: rgba(180, 210, 255, 0.04);
+}
+
+.bday-card-countdown .bday-card-year {
+    color: rgba(180, 210, 255, 0.7);
+}
+
+.bday-countdown {
+    font-size: 0.95rem;
+    color: rgba(180, 210, 255, 0.9);
+    font-family: "Segoe UI", sans-serif;
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .bday-selector {
+        left: 0;
+        padding: 40px 24px;
+        gap: 24px;
+    }
+
+    .bday-cards {
+        gap: 14px;
+    }
+
+    .bday-card {
+        min-width: 130px;
+        padding: 20px 18px;
+    }
+
+    .bday-card-year {
+        font-size: 1.6rem;
     }
 }
