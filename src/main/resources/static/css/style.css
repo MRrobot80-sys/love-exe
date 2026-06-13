@@ -696,7 +696,7 @@ p {
     position: fixed;
     inset: 0;
     background: rgba(13, 0, 16, 0.96);
-    z-index: 200;
+    z-index: 500;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -710,6 +710,16 @@ p {
     pointer-events: all;
 }
 
+.birthday-gate-overlay .gate-box {
+    opacity: 1;
+    transform: none;
+    pointer-events: all;
+    position: relative;
+}
+
+.birthday-gate-overlay .gate-input-row {
+    opacity: 1 !important;
+}
 /* ===== PHOTO CARD ===== */
 .photo-card {
     position: fixed;
