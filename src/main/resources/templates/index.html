@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Love.exe❤️</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+ <!-- PASSWORD GATE -->
+<div class="gate-overlay" id="gateOverlay">
+    <div class="envelope-wrap" id="envelopeWrap">
+        <!-- Envelope -->
+        <div class="envelope" id="envelope">
+            <div class="envelope-flap" id="envelopeFlap"></div>
+            <div class="envelope-body">
+                <div class="envelope-heart">♥</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gate box slides up after envelope opens -->
+    <div class="gate-box" id="gateBox">
+        <div class="gate-prompt" id="gatePrompt"></div>
+        <div class="gate-input-row">
+            <input
+                type="text"
+                id="gateInput"
+                class="gate-input"
+                placeholder="your answer..."
+                autocomplete="off"
+            />
+            <button class="gate-btn" id="gateBtn">→</button>
+        </div>
+        <div class="gate-error" id="gateError"></div>
+    </div>
+</div>
+    <div class="container">
+      <!-- LEFT SIDEBAR -->
+      <div class="sidebar">
+        <h2>Love.exe❤️</h2>
+        <div class="nav-item" data-target="boot">The beginning</div>
+        <div class="nav-item" data-target="m1">Sunflower</div>
+        <div class="nav-item" data-target="m2">The Hut</div>
+        <div class="nav-item" data-target="m3">The Bench</div>
+        <div class="nav-item" data-target="open">Open When 💌</div>
+      </div>
+
+      <!-- RIGHT CONTENT -->
+      <div class="content">
+        <div id="bg-a" class="bg-layer"></div>
+        <div id="bg-b" class="bg-layer"></div>
+
+        <!-- 1 -->
+        <section class="panel" id="boot" data-bg="/images/bg1.jpeg">
+          <audio id="bootSong" src="/images/Tum.mp3" loop></audio>
+          <div class="boot-content">
+            <p>
+              Hii baby.<br /><br />
+              I tried to send you a letter a few days ago while you were
+              sleeping. The website kept asking me for money. So I built you
+              this instead.<br /><br />
+              I want you to know that your heart will always be safe with me.
+              That I am not going anywhere. That you'll always find me here — to
+              listen, to cheer you on, even in the tiniest of wins, without any
+              judgement. Ever.<br /><br />
+              Syeda Amna Rizwan — I am truly blessed to be the one who gets to
+              call you mine. You make me fall in love with you all over again,
+              every single day, every time harder than before.<br /><br />
+              You are stuck with me forever, by the way. If you were planning to
+              get rid of me — aap late ho chuki hain. 🤭<br /><br />
+              You made life worth living, Amna. I wish, hope and pray that this
+              part lasts forever.<br /><br />
+              Forever yours,<br />
+              Piyaru baby ♥
+            </p>
+            <button class="music-btn" id="musicBtn">
+              <span class="music-icon" id="musicIcon">▶</span>
+              <span class="music-label" id="musicLabel">Play Me</span>
+            </button>
+          </div>
+        </section>
+        <!-- 2 -->
+        <section class="panel" id="m1" data-bg="/images/bg2.jpg">
+          <p>
+            I don't think you know what you look like to other people.<br /><br />
+            Not in a mirror way. In a room way.<br /><br />
+            You walk in and something shifts. Not loudly — you're not the kind
+            of person who needs to announce themselves. It's quieter than that.
+            Like when the sun comes out and you don't notice until you realise
+            you're warm.<br /><br />
+            That's you. That's what you do to a room. To a conversation. To a
+            regular Tuesday that had no business being special.<br /><br />
+            I think that's why sunflowers feel like you. They don't chase the
+            light — they are the light. They just stand there, completely
+            themselves, and everything around them is better for it.<br /><br />
+            You are the human version of that.<br /><br />
+            And I hope someday you see yourself the way I see you — like the
+            best kind of morning. Like something worth waking up for.
+          </p>
+        </section>
+
+        <!-- 3 -->
+        <section class="panel" id="m2" data-bg="/images/bg3.jpg">
+          <div class="hut-content">
+            <p>
+              Everyone has a place they go to in their head when the world gets
+              too loud.<br /><br />
+              Ours has a fireplace. Cats that don't listen. Pizza we made
+              ourselves, probably burnt a little. A hammock. Two cups of
+              something warm. Sunsets with nowhere to be.<br /><br />
+              We've never been there. But I know exactly what it feels like —
+              because we've built it so many times in conversation, brick by
+              brick, detail by detail, the way only two people who really
+              understand each other can.<br /><br />
+              That hut is not just a place. It's what we mean when we say we
+              need a break from everything. It's shorthand for: I want to be
+              somewhere quiet, with you, where nothing can reach us for a
+              while.<br /><br />
+              Most people keep their dreams vague so they don't have to miss
+              them.<br /><br />
+              We made a vision board.<br /><br />
+              One day, inshallah — we'll actually burn that pizza together.
+            </p>
+            <button class="visionboard-btn" id="visionBoardBtn">
+              🏡 See our vision board
+            </button>
+          </div>
+
+          <!-- Vision board polaroid -->
+          <div class="visionboard-overlay" id="visionBoardOverlay">
+            <div class="polaroid">
+              <img src="/images/visionboard.jpeg" alt="Our Hut Vision Board" />
+              <p class="polaroid-caption">Our Hut 🌿</p>
+            </div>
+            <button class="polaroid-close" id="visionBoardClose">✕</button>
+          </div>
+        </section>
+
+        <!-- 4 -->
+        <section class="panel" id="m3" data-bg="/images/SidebarBG.jpeg">
+          <div class="bench-layout">
+            <div class="bench-content">
+              <p>
+                It was a normal night. I was walking, we were on call, and then
+                I saw it —<br /><br />
+                A bench. The river. The lights.<br /><br />
+                And without thinking, I sent it to you and said: our bench.<br /><br />
+                You didn't question it. You just said yes. That's one of my
+                favourite things about us — we don't need to explain everything.
+                Some things just make sense between us immediately.<br /><br />
+                We've never actually sat there together. But we've talked about
+                it so many times that I already know how that night would go —
+                the conversation we've been saving, the view we'd sit in silence
+                for, the exact feeling of finally being in the same place at the
+                same time with nowhere else to be.<br /><br />
+                That bench isn't just a bench anymore.<br /><br />
+                It's a promise.<br /><br />
+                I'm saving my spot, Amna. I'll be there when you get here.
+              </p>
+              <div class="bench-tag">Our bench 🌙</div>
+            </div>
+            <div class="bench-photo-wrap">
+              <img src="/images/bg1.jpeg" alt="Our bench" class="bench-photo" />
+              <p class="bench-photo-caption">someday 🌙</p>
+            </div>
+          </div>
+        </section>
+        <!-- 5 -->
+        <section class="panel" id="open" data-bg="/images/bg5.jpg">
+          <div class="open-when-container">
+            <p class="open-when-intro">
+              <span>Choose a moment.</span>
+            </p>
+            <div class="open-when-timeline">
+              <div class="timeline-line"></div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <button class="ow-btn" data-letter="sad">
+                  💙 Open when you're sad
+                </button>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <button class="ow-btn" data-letter="miss">
+                  🌙 Open when you miss me
+                </button>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <button class="ow-btn" data-letter="birthday">
+                  🎂 Open on your birthday
+                </button>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <button class="ow-btn" data-letter="3am">
+                  🌧️ Open when it's 3am
+                </button>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <button class="ow-btn" data-letter="reminder">
+                  🌸 Open when you need a reminder
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- LETTER OVERLAY -->
+        <div class="letter-overlay" id="letterOverlay">
+          <button class="back-btn" id="backBtn">← Back</button>
+          <div class="letter-content" id="letterContent"></div>
+        </div>
+      </div>
+    </div>
+    <!-- BIRTHDAY GATE -->
+    <div class="birthday-gate-overlay" id="birthdayGateOverlay">
+      <div class="gate-box">
+        <div class="gate-prompt">Enter password 🎂</div>
+        <div class="gate-input-row">
+          <input
+            type="password"
+            id="birthdayGateInput"
+            class="gate-input"
+            placeholder="your answer..."
+            autocomplete="off"
+          />
+          <button class="gate-btn" id="birthdayGateBtn">→</button>
+        </div>
+        <div class="gate-error" id="birthdayGateError"></div>
+      </div>
+    </div>
+    <!-- PHOTO CARD -->
+    <div class="photo-card" id="photoCard">
+      <img id="photoCardImg" src="" alt="" />
+    </div>
+
+    <!-- PHOTO CARD EXPANDED -->
+    <div class="photo-card-expanded" id="photoCardExpanded">
+      <div class="polaroid photo-card-polaroid">
+        <img id="photoCardExpandedImg" src="" alt="" />
+      </div>
+    </div>
+    <script src="/js/script.js"></script>
+  </body>
+</html>
