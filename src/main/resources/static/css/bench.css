@@ -1,61 +1,281 @@
-/* ===== THE BENCH - MEMORY THREE ===== */
-.bench-content {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+/* ===== THE BENCH — midnight river, Budapest ===== */
+
+#m3 {
+    position: relative;
+    overflow: hidden;
 }
 
-.bench-tag {
-    display: inline-block;
-    width: fit-content;
-    font-size: 0.85rem;
-    font-family: "Segoe UI", sans-serif;
-    color: rgba(180, 210, 255, 0.7);
-    border: 1px solid rgba(180, 210, 255, 0.25);
-    padding: 6px 16px;
+/* ─── SKY LAYER ─── */
+.bench-sky {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 52%;
+    pointer-events: none;
+    z-index: 1;
+    background: linear-gradient(
+        180deg,
+        #020a1a 0%,
+        #041228 40%,
+        #071a38 75%,
+        #0a2248 100%
+    );
+}
+
+/* ─── MOON ─── */
+.bench-moon {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 38% 38%, #fffff5, #f5e8c0 40%, #d4b870 100%);
+    box-shadow:
+        0 0 18px 6px rgba(240, 220, 130, 0.45),
+        0 0 55px 20px rgba(220, 190, 90, 0.2),
+        0 0 100px 40px rgba(200, 160, 60, 0.08);
+    animation: moonGlow 6s ease-in-out infinite;
+    z-index: 3;
+}
+
+@keyframes moonGlow {
+    0%, 100% { box-shadow: 0 0 18px 6px rgba(240,220,130,0.4), 0 0 55px 20px rgba(220,190,90,0.18), 0 0 100px 40px rgba(200,160,60,0.07); }
+    50%       { box-shadow: 0 0 24px 10px rgba(240,220,130,0.6), 0 0 70px 28px rgba(220,190,90,0.28), 0 0 130px 55px rgba(200,160,60,0.12); }
+}
+
+/* Moon craters for realism */
+.bench-moon::before {
+    content: "";
+    position: absolute;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: rgba(180, 150, 80, 0.35);
+    top: 14px; left: 28px;
+    box-shadow:
+        -14px 8px 0 3px rgba(170,140,70,0.25),
+        6px 20px 0 2px rgba(170,140,70,0.2);
+}
+
+/* ─── CLOUDS ─── */
+.bench-clouds {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.bench-cloud {
+    position: absolute;
     border-radius: 50px;
-    letter-spacing: 0.08em;
-    font-style: italic;
-    animation: benchGlow 3s ease-in-out infinite;
+    background: rgba(18, 35, 72, 0.88);
+    box-shadow: 0 0 30px 8px rgba(15, 28, 60, 0.7);
+    animation: cloudDrift var(--cloud-dur, 90s) linear infinite;
+    animation-delay: var(--cloud-delay, 0s);
+    opacity: var(--cloud-opacity, 0.85);
 }
 
-@keyframes benchGlow {
-    0%   { 
-        box-shadow: 0 0 6px rgba(180, 210, 255, 0.15);
-        border-color: rgba(180, 210, 255, 0.25);
-        color: rgba(180, 210, 255, 0.7);
-    }
-    50%  { 
-        box-shadow: 0 0 16px rgba(180, 210, 255, 0.35);
-        border-color: rgba(180, 210, 255, 0.6);
-        color: rgba(180, 210, 255, 1);
-    }
-    100% { 
-        box-shadow: 0 0 6px rgba(180, 210, 255, 0.15);
-        border-color: rgba(180, 210, 255, 0.25);
-        color: rgba(180, 210, 255, 0.7);
-    }
+.bench-cloud::before,
+.bench-cloud::after {
+    content: "";
+    position: absolute;
+    background: inherit;
+    border-radius: 50%;
 }
 
-/* ===== BENCH LAYOUT ===== */
+/* Cloud 1 — large, left side, partially veils moon */
+.bench-cloud:nth-child(1) {
+    width: 280px; height: 55px;
+    top: 12%; left: -10%;
+    --cloud-dur: 110s; --cloud-delay: 0s; --cloud-opacity: 0.9;
+}
+.bench-cloud:nth-child(1)::before {
+    width: 110px; height: 80px; top: -35px; left: 40px;
+}
+.bench-cloud:nth-child(1)::after {
+    width: 80px; height: 65px; top: -25px; left: 130px;
+}
+
+/* Cloud 2 — wispy, upper right */
+.bench-cloud:nth-child(2) {
+    width: 200px; height: 38px;
+    top: 6%; left: 55%;
+    --cloud-dur: 140s; --cloud-delay: -40s; --cloud-opacity: 0.75;
+}
+.bench-cloud:nth-child(2)::before {
+    width: 80px; height: 55px; top: -28px; left: 30px;
+}
+.bench-cloud:nth-child(2)::after {
+    width: 60px; height: 42px; top: -18px; left: 110px;
+}
+
+/* Cloud 3 — thin streak mid-sky */
+.bench-cloud:nth-child(3) {
+    width: 350px; height: 28px;
+    top: 22%; left: -20%;
+    --cloud-dur: 160s; --cloud-delay: -70s; --cloud-opacity: 0.6;
+    border-radius: 30px;
+}
+.bench-cloud:nth-child(3)::before {
+    width: 120px; height: 40px; top: -16px; left: 80px;
+}
+.bench-cloud:nth-child(3)::after {
+    width: 90px; height: 32px; top: -10px; left: 220px;
+}
+
+/* Cloud 4 — small puff near moon */
+.bench-cloud:nth-child(4) {
+    width: 150px; height: 32px;
+    top: 9%; left: 30%;
+    --cloud-dur: 100s; --cloud-delay: -25s; --cloud-opacity: 0.8;
+}
+.bench-cloud:nth-child(4)::before {
+    width: 65px; height: 50px; top: -22px; left: 20px;
+}
+.bench-cloud:nth-child(4)::after {
+    width: 50px; height: 38px; top: -14px; left: 80px;
+}
+
+@keyframes cloudDrift {
+    from { transform: translateX(0); }
+    to   { transform: translateX(110vw); }
+}
+
+/* ─── STARS ─── */
+.bench-star {
+    position: absolute;
+    background: #ffffff;
+    border-radius: 50%;
+    animation: starTwinkle var(--star-dur, 3s) ease-in-out infinite;
+    animation-delay: var(--star-delay, 0s);
+    z-index: 2;
+}
+
+@keyframes starTwinkle {
+    0%, 100% { opacity: 0.15; transform: scale(1); }
+    50%       { opacity: var(--star-brightness, 0.7); transform: scale(1.3); }
+}
+
+/* ─── HORIZON GLOW (city lights far shore) ─── */
+.bench-horizon {
+    position: absolute;
+    pointer-events: none;
+    z-index: 3;
+    left: 0; right: 0;
+}
+
+.bench-horizon-glow {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 28px;
+    background: linear-gradient(
+        to right,
+        transparent 2%,
+        rgba(255, 150, 30, 0.35) 8%,
+        rgba(255, 180, 50, 0.55) 18%,
+        rgba(255, 160, 35, 0.45) 28%,
+        rgba(255, 140, 25, 0.6)  38%,
+        rgba(255, 175, 48, 0.55) 50%,
+        rgba(255, 155, 32, 0.5)  62%,
+        rgba(255, 170, 44, 0.45) 72%,
+        rgba(255, 145, 28, 0.4)  82%,
+        rgba(255, 160, 38, 0.35) 92%,
+        transparent 98%
+    );
+    animation: horizonPulse 4s ease-in-out infinite;
+}
+
+@keyframes horizonPulse {
+    0%, 100% { opacity: 0.8; }
+    50%       { opacity: 1;   }
+}
+
+/* ─── RIVER LAYER ─── */
+.bench-river {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    height: 48%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+    background: linear-gradient(
+        180deg,
+        #071525 0%,
+        #050f1c 40%,
+        #030c18 100%
+    );
+}
+
+/* Canvas handles the actual water animation */
+.bench-river-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+}
+
+/* ─── BENCH CONTENT ─── */
 .bench-layout {
     display: flex;
     align-items: center;
     gap: 60px;
     width: 100%;
+    position: relative;
+    z-index: 5;
 }
 
+.bench-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    position: relative;
+    z-index: 5;
+}
+
+/* ─── "OUR BENCH" TAG ─── */
+.bench-tag {
+    display: inline-block;
+    width: fit-content;
+    font-size: 0.85rem;
+    font-family: "Segoe UI", sans-serif;
+    color: rgba(210, 170, 80, 0.85);
+    border: 1px solid rgba(210, 170, 80, 0.3);
+    padding: 6px 16px;
+    border-radius: 50px;
+    letter-spacing: 0.08em;
+    font-style: italic;
+    animation: benchTagGlow 3.5s ease-in-out infinite;
+}
+
+@keyframes benchTagGlow {
+    0%, 100% {
+        box-shadow: 0 0 8px rgba(210, 160, 40, 0.15);
+        border-color: rgba(210, 170, 80, 0.3);
+        color: rgba(210, 170, 80, 0.75);
+    }
+    50% {
+        box-shadow: 0 0 18px rgba(220, 170, 50, 0.4), 0 0 35px rgba(200, 140, 20, 0.2);
+        border-color: rgba(220, 180, 90, 0.75);
+        color: rgba(235, 195, 100, 1);
+    }
+}
+
+/* ─── POLAROID PHOTO ─── */
 .bench-photo-wrap {
     flex-shrink: 0;
     background: #fdf8f0;
     padding: 12px 12px 44px 12px;
     border-radius: 3px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7),
-                0 0 30px rgba(180, 210, 255, 0.15);
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.75),
+        0 0 30px rgba(200, 150, 40, 0.2);
     transform: rotate(2deg);
-    animation: benchPhotoIn 1s ease forwards;
     opacity: 0;
     max-width: 260px;
+}
+
+.panel#m3.active .bench-photo-wrap {
+    animation: benchPhotoIn 1s ease 0.4s forwards;
 }
 
 .bench-photo-wrap img {
@@ -75,29 +295,21 @@
 }
 
 @keyframes benchPhotoIn {
-    from {
-        opacity: 0;
-        transform: rotate(2deg) translateY(30px) scale(0.92);
-    }
-    to {
-        opacity: 1;
-        transform: rotate(2deg) translateY(0) scale(1);
-    }
+    from { opacity: 0; transform: rotate(2deg) translateY(30px) scale(0.92); }
+    to   { opacity: 1; transform: rotate(2deg) translateY(0)    scale(1);    }
 }
 
-.panel#m3.active .bench-photo-wrap {
-    animation: benchPhotoIn 1s ease 0.4s forwards;
-}
-
-/* ===== MOBILE RESPONSIVE ===== */
+/* ─── MOBILE ─── */
 @media (max-width: 768px) {
     .bench-layout {
         flex-direction: column;
         gap: 30px;
     }
-
     .bench-photo-wrap {
         max-width: 220px;
         align-self: center;
+    }
+    .bench-moon {
+        width: 38px; height: 38px;
     }
 }

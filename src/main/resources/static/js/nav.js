@@ -38,6 +38,7 @@ const observer = new IntersectionObserver(
                 const id = entry.target.id;
                 setActiveNav(id);
                 entry.target.classList.add("active");
+                document.body.setAttribute("data-section", id);
             }
         });
     },
@@ -46,4 +47,5 @@ const observer = new IntersectionObserver(
 
 panels.forEach((panel) => observer.observe(panel));
 document.querySelector(".panel").classList.add("active");
+document.body.setAttribute("data-section", document.querySelector(".panel").id);
 initBackground();
