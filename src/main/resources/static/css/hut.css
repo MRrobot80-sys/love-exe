@@ -1,262 +1,678 @@
-/* ===== THE HUT — cozy cabin / campfire escape ===== */
+/* =========================================================
+   THE HUT — WOOD CABIN INTERIOR (wood-stove reference vibe)
+   ========================================================= */
 
-/* Panel itself needs to be a stacking context */
 #m2 {
     position: relative;
+    min-height: 100vh;
     overflow: hidden;
+
+    font-family: "Segoe UI", sans-serif;
+    color: rgba(255, 235, 210, 0.92);
+
+    background:
+        radial-gradient(circle at 78% 75%, rgba(255,140,60,0.16), transparent 55%),
+        linear-gradient(180deg, #4a3420 0%, #2e2013 55%, #1a120a 100%);
+
+    box-shadow: inset 0 0 140px rgba(0,0,0,0.75);
 }
 
-.hut-content {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    position: relative;
+/* =========================================================
+   BASE LAYERS (DECOR — NEVER INTERCEPT CLICKS)
+   ========================================================= */
+
+.hut-fire-glow,
+.hut-embers,
+.hut-lights,
+.hut-window,
+.hut-rug,
+.hut-cat,
+.hut-walls,
+.hut-sofa,
+.hut-stove {
+    pointer-events: none;
+}
+
+/* =========================================================
+   WOOD PLANK WALLS + CEILING
+   ========================================================= */
+
+.hut-walls {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+
+    background:
+        /* horizontal plank seams */
+        repeating-linear-gradient(
+            0deg,
+            rgba(0,0,0,0.18) 0px,
+            rgba(0,0,0,0.18) 2px,
+            transparent 2px,
+            transparent 64px
+        ),
+        /* warm honey wood tone, lighter at top (ceiling) darker at floor */
+        linear-gradient(180deg, #8a6238 0%, #6b4726 45%, #4a3018 100%);
+
+    opacity: 0.9;
+}
+
+/* a few darker knot details scattered across the wall, purely decorative */
+.hut-walls::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 12% 30%, rgba(40,24,10,0.35) 0px, transparent 14px),
+        radial-gradient(circle at 85% 18%, rgba(40,24,10,0.3) 0px, transparent 12px),
+        radial-gradient(circle at 32% 65%, rgba(40,24,10,0.3) 0px, transparent 10px),
+        radial-gradient(circle at 60% 82%, rgba(40,24,10,0.3) 0px, transparent 12px);
+}
+
+/* =========================================================
+   WALL SCONCE — WARM LIGHTING (replaces hanging chandelier)
+   ========================================================= */
+
+.hut-lights {
+    position: absolute;
+    top: 90px;
+    left: 70px;
+
+    width: 60px;
+    height: 90px;
+
     z-index: 5;
 }
 
-/* ─── STRING LIGHTS ─── */
-.hut-lights {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 70px;
-    pointer-events: none;
-    z-index: 6;
-}
-
-/* The wire */
+/* mount plate against the wall */
 .hut-lights::before {
     content: "";
     position: absolute;
-    top: 20px;
+    top: 0;
+    left: 18px;
+
+    width: 24px;
+    height: 30px;
+
+    background: linear-gradient(180deg, #2a1c10, #181009);
+    border-radius: 4px 4px 2px 2px;
+}
+
+/* glass shade glowing warm */
+.hut-lights::after {
+    content: "";
+    position: absolute;
+    top: 26px;
+    left: 10px;
+
+    width: 40px;
+    height: 46px;
+
+    background: radial-gradient(ellipse at 50% 30%,
+        rgba(255, 224, 170, 0.95),
+        rgba(255, 180, 90, 0.55) 60%,
+        rgba(255, 150, 60, 0.15) 85%,
+        transparent 100%);
+
+    border-radius: 50% 50% 60% 60% / 45% 45% 55% 55%;
+
+    box-shadow: 0 0 30px rgba(255, 190, 110, 0.45);
+
+    animation: sconceFlicker 4.5s ease-in-out infinite;
+}
+
+@keyframes sconceFlicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.82; }
+}
+
+/* =========================================================
+   WINDOW — SNOWY PINES OUTSIDE
+   ========================================================= */
+
+.hut-window {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 320px;
+    height: 200px;
+
+    z-index: 4;
+
+    border: 10px solid #5a3a1f;
+    border-radius: 2px;
+
+    background:
+        linear-gradient(180deg, transparent calc(50% - 2px), #5a3a1f calc(50% - 2px), #5a3a1f calc(50% + 2px), transparent calc(50% + 2px)),
+        linear-gradient(90deg, transparent calc(50% - 2px), #5a3a1f calc(50% - 2px), #5a3a1f calc(50% + 2px), transparent calc(50% + 2px)),
+        linear-gradient(180deg,
+            #b9c7cf 0%,
+            #8fa3ad 35%,
+            #5d717c 70%,
+            #3f4f58 100%);
+
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.35), 0 6px 20px rgba(0,0,0,0.4);
+
+    overflow: hidden;
+}
+
+/* snow ground at the base of the window */
+.hut-window::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
     left: 0;
     right: 0;
-    height: 2px;
-    background: linear-gradient(
-        to right,
-        transparent,
-        rgba(100, 65, 20, 0.8) 5%,
-        rgba(100, 65, 20, 0.8) 95%,
-        transparent
+    height: 30%;
+
+    background: linear-gradient(180deg, #e8eef0, #cfd9dd);
+}
+
+/* simple pine silhouettes, layered for depth */
+.hut-window::after {
+    content: "";
+    position: absolute;
+    bottom: 26%;
+    left: 0;
+    right: 0;
+    height: 55%;
+
+    background-color: rgba(35, 48, 42, 0.7);
+
+    clip-path: polygon(
+        0% 100%, 4% 40%, 8% 100%, 14% 30%, 20% 100%,
+        26% 45%, 32% 100%, 38% 20%, 44% 100%, 50% 38%,
+        56% 100%, 62% 25%, 68% 100%, 74% 42%, 80% 100%,
+        86% 22%, 92% 100%, 96% 35%, 100% 100%
     );
 }
 
-.hut-bulb {
+/* curtain valance across the top, like the reference photo */
+.hut-window-valance {
     position: absolute;
-    width: 12px;
-    height: 16px;
-    border-radius: 50% 50% 55% 55%;
-    z-index: 6;
-    animation: bulbFlicker var(--flicker-dur, 3s) ease-in-out infinite;
-    animation-delay: var(--flicker-delay, 0s);
-}
-
-/* Cap on top of bulb */
-.hut-bulb::before {
-    content: "";
-    position: absolute;
-    top: -5px;
+    top: 50px;
     left: 50%;
     transform: translateX(-50%);
-    width: 4px;
-    height: 6px;
-    background: rgba(90, 55, 15, 0.9);
-    border-radius: 1px;
+
+    width: 340px;
+    height: 26px;
+
+    z-index: 5;
+
+    background: linear-gradient(180deg, #c9a876, #a8835a);
+    border-radius: 3px;
+
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
-@keyframes bulbFlicker {
-    0%, 85%, 100% { opacity: 1; }
-    87%            { opacity: 0.3; }
-    89%            { opacity: 1; }
-    91%            { opacity: 0.5; }
-    93%            { opacity: 1; }
+/* =========================================================
+   WOOD STOVE — BLACK STOVE WITH GLASS DOOR + VISIBLE FLAME
+   ========================================================= */
+
+.hut-stove {
+    position: absolute;
+    bottom: 0;
+    right: 70px;
+
+    width: 190px;
+    height: 280px;
+
+    z-index: 6;
 }
 
-/* ─── EMBERS ─── */
+/* flue pipe rising to the ceiling */
+.hut-stove::before {
+    content: "";
+    position: absolute;
+    bottom: 230px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 22px;
+    height: 600px;
+
+    background: linear-gradient(90deg, #1a1a1a, #3a3a3a 45%, #1a1a1a);
+
+    box-shadow: 0 0 12px rgba(0,0,0,0.5);
+}
+
+/* stove body */
+.hut-stove::after {
+    content: "";
+    position: absolute;
+    bottom: 50px;
+    left: 10px;
+
+    width: 170px;
+    height: 190px;
+
+    background: linear-gradient(160deg, #2c2c2c 0%, #161616 60%, #0a0a0a 100%);
+    border-radius: 14px;
+
+    box-shadow:
+        inset 0 4px 10px rgba(255,255,255,0.05),
+        0 18px 30px rgba(0,0,0,0.55);
+}
+
+/* stove legs/base */
+.stove-base {
+    position: absolute;
+    bottom: 0;
+    left: 26px;
+
+    width: 138px;
+    height: 50px;
+
+    background: linear-gradient(180deg, #1c1c1c, #0a0a0a);
+    border-radius: 6px;
+
+    z-index: 6;
+}
+
+/* glass door window showing the flame */
+.stove-glass {
+    position: absolute;
+    bottom: 110px;
+    left: 35px;
+
+    width: 120px;
+    height: 110px;
+
+    border-radius: 10px;
+    border: 6px solid #0a0a0a;
+
+    background: #1a0f08;
+
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+
+    overflow: hidden;
+    z-index: 7;
+}
+
+/* flame glow inside the glass */
+.stove-glass::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 100%;
+    height: 80%;
+
+    background: radial-gradient(circle at 50% 100%,
+        rgba(255, 200, 100, 0.9),
+        rgba(255, 130, 30, 0.7) 45%,
+        transparent 80%);
+
+    animation: firePulse 4.5s ease-in-out infinite;
+}
+
+/* flickering flame shape */
+.stove-glass::after {
+    content: "";
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 38px;
+    height: 52px;
+
+    background: radial-gradient(circle at 50% 100%,
+        #fff3c4 0%,
+        #ffb347 35%,
+        #ff7a1a 65%,
+        transparent 100%);
+
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    filter: blur(1px);
+
+    animation: flameDance 1.8s ease-in-out infinite;
+}
+
+@keyframes flameDance {
+    0%, 100% { transform: translateX(-50%) scaleY(1) scaleX(1); }
+    50% { transform: translateX(-50%) scaleY(1.12) scaleX(0.92); }
+}
+
+@keyframes firePulse {
+    0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+    50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+}
+
+/* stove door handle */
+.stove-handle {
+    position: absolute;
+    bottom: 90px;
+    left: 86px;
+
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+
+    background: radial-gradient(circle at 35% 35%, #4a4a4a, #161616);
+
+    z-index: 7;
+}
+
+/* ambient firelight cast onto the room from the stove */
+.hut-fire-glow {
+    position: absolute;
+    bottom: 0;
+    right: 70px;
+
+    width: 420px;
+    height: 320px;
+
+    z-index: 2;
+
+    background: radial-gradient(circle at 75% 60%,
+        rgba(255, 130, 40, 0.22),
+        rgba(255, 90, 20, 0.1),
+        transparent 70%);
+
+    animation: firePulse 4.5s ease-in-out infinite;
+}
+
+/* =========================================================
+   EMBERS — DRIFTING UP FROM THE STOVE
+   ========================================================= */
+
 .hut-embers {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
-    z-index: 4;
-    overflow: hidden;
+    inset: 0;
+    z-index: 3;
 }
 
 .hut-ember {
     position: absolute;
     border-radius: 50%;
-    pointer-events: none;
     opacity: 0;
-    animation: emberRise var(--ember-dur, 6s) ease-in forwards;
-    animation-delay: var(--ember-delay, 0s);
+    animation: emberRise var(--dur, 6s) linear forwards;
 }
 
 @keyframes emberRise {
-    0%   { opacity: 0;   transform: translateY(0) translateX(0) scale(1); }
-    8%   { opacity: 1; }
-    80%  { opacity: 0.7; }
-    100% { opacity: 0;   transform: translateY(-90vh) translateX(var(--ember-drift, 40px)) scale(0.2); }
+    0% { transform: translateY(0); opacity: 0; }
+    10% { opacity: 1; }
+    100% {
+        transform: translateY(-60vh) translateX(var(--drift, 20px));
+        opacity: 0;
+    }
 }
 
-/* ─── CAMPFIRE GLOW ─── */
-.hut-fire-glow {
+/* =========================================================
+   RUG — PATTERNED, ON THE FLOOR
+   ========================================================= */
+
+.hut-rug {
     position: absolute;
-    bottom: -20px;
-    left: -20%;
-    right: -20%;
-    height: 300px;
-    background: radial-gradient(
-        ellipse 60% 100% at 50% 100%,
-        rgba(255, 120, 10, 0.45)  0%,
-        rgba(200, 70, 5,  0.30)   30%,
-        rgba(150, 40, 0,  0.15)   55%,
-        transparent                80%
-    );
-    pointer-events: none;
+    bottom: 18px;
+    left: 36%;
+    transform: translateX(-50%);
+
+    width: 60%;
+    max-width: 460px;
+    height: 130px;
+
     z-index: 3;
-    animation: fireBreath 3.5s ease-in-out infinite;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(190, 60, 40, 0.85) 0px,
+            rgba(190, 60, 40, 0.85) 10px,
+            rgba(30, 30, 45, 0.85) 10px,
+            rgba(30, 30, 45, 0.85) 20px
+        );
+
+    border: 6px solid rgba(225, 215, 200, 0.5);
+    border-radius: 4px;
+
+    box-shadow: 0 10px 24px rgba(0,0,0,0.4);
 }
 
-@keyframes fireBreath {
-    0%, 100% { opacity: 0.75; transform: scaleX(1)    scaleY(1); }
-    33%       { opacity: 1;    transform: scaleX(1.08) scaleY(1.04); }
-    66%       { opacity: 0.85; transform: scaleX(0.96) scaleY(1.02); }
+.hut-rug::before {
+    content: "";
+    position: absolute;
+    inset: 14px;
+    border: 3px solid rgba(20, 20, 35, 0.6);
+    border-radius: 2px;
 }
 
-/* ─── ANIMATED CAMPFIRE ─── */
-.campfire-scene {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    position: relative;
-    z-index: 5;
-    height: 90px;
-    margin-bottom: -10px;
+/* =========================================================
+   RED SECTIONAL SOFA
+   ========================================================= */
+
+.hut-sofa {
+    position: absolute;
+    bottom: 16px;
+    left: -30px;
+
+    width: 330px;
+    height: 150px;
+
+    z-index: 6;
+
+    filter: drop-shadow(0 14px 16px rgba(0,0,0,0.5));
 }
 
-.campfire {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.fire-wrap {
-    position: relative;
-    width: 52px;
-    height: 64px;
-}
-
-.flame {
+/* main seat cushion run */
+.hut-sofa::before {
+    content: "";
     position: absolute;
     bottom: 0;
-    border-radius: 50% 50% 30% 30%;
-    transform-origin: bottom center;
-    animation: hutFlicker var(--fd, 0.4s) infinite alternate ease-in-out;
+    left: 0;
+
+    width: 330px;
+    height: 90px;
+
+    background: linear-gradient(180deg, #c0432b, #8f2c1c);
+    border-radius: 10px 18px 6px 6px;
 }
 
-.fl1 { width: 22px; height: 54px; background: linear-gradient(to top, #ff5500, #ffcc00); left: 15px; --fd: 0.38s; }
-.fl2 { width: 15px; height: 42px; background: linear-gradient(to top, #ff3300, #ffaa00); left:  5px; --fd: 0.52s; animation-delay: 0.10s; }
-.fl3 { width: 15px; height: 42px; background: linear-gradient(to top, #ff3300, #ff9900); right: 4px; --fd: 0.45s; animation-delay: 0.07s; }
-.fl4 { width: 10px; height: 30px; background: linear-gradient(to top, #ff2200, #ff8800); left: 21px; --fd: 0.30s; animation-delay: 0.15s; }
-.fl5 { width:  8px; height: 22px; background: linear-gradient(to top, #ffee00, #ffffff); left: 22px; --fd: 0.24s; animation-delay: 0.05s; }
-
-@keyframes hutFlicker {
-    0%   { transform: scaleX(1)    scaleY(1)    rotate(-2deg); }
-    33%  { transform: scaleX(0.88) scaleY(1.06) rotate(2deg);  }
-    66%  { transform: scaleX(1.10) scaleY(0.94) rotate(-1deg); }
-    100% { transform: scaleX(0.92) scaleY(1.04) rotate(3deg);  }
-}
-
-.fire-glow-spot {
+/* backrest, taller on the left like the corner sectional in the photo */
+.hut-sofa::after {
+    content: "";
     position: absolute;
-    bottom: -6px;
+    bottom: 60px;
+    left: 0;
+
+    width: 200px;
+    height: 90px;
+
+    background: linear-gradient(180deg, #d14e34, #a3341f);
+    border-radius: 16px 16px 0 0;
+
+    box-shadow: inset 0 -14px 18px rgba(0,0,0,0.25);
+}
+
+/* a couple of throw pillows for that lived-in look */
+.sofa-pillow {
+    position: absolute;
+    bottom: 78px;
+
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+
+    transform: rotate(-6deg);
+
+    box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+}
+
+.sofa-pillow:nth-of-type(1) {
+    left: 24px;
+    background: linear-gradient(160deg, #e7e2d8, #c9c2b2);
+    transform: rotate(-8deg);
+}
+
+.sofa-pillow:nth-of-type(2) {
+    left: 70px;
+    background: linear-gradient(160deg, #38506b, #243345);
+    transform: rotate(5deg);
+}
+
+.sofa-pillow:nth-of-type(3) {
+    left: 116px;
+    background: linear-gradient(160deg, #d9583a, #a83b22);
+    transform: rotate(-4deg);
+}
+
+/* =========================================================
+   CAT — A QUIET LIVING PRESENCE BY THE FIRE
+   ========================================================= */
+
+.hut-cat {
+    position: absolute;
+    bottom: 150px;
     left: 50%;
     transform: translateX(-50%);
-    width: 70px;
+
+    width: 54px;
+    height: 46px;
+
+    z-index: 7;
+
+    animation: catBreath 5s ease-in-out infinite;
+
+    filter: drop-shadow(0 10px 12px rgba(0,0,0,0.6));
+}
+
+/* body — sitting silhouette */
+.hut-cat::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 6px;
+
+    width: 36px;
+    height: 34px;
+
+    background: #1c1410;
+    border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+}
+
+/* head + ears */
+.hut-cat::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 14px;
+
+    width: 22px;
     height: 18px;
-    background: rgba(255, 100, 0, 0.35);
-    border-radius: 50%;
-    filter: blur(5px);
-    animation: fireGlowPulse 0.45s infinite alternate;
+
+    background: #1c1410;
+    border-radius: 50% 50% 45% 45%;
+    clip-path: polygon(
+        0% 35%, 18% 0%, 30% 30%,
+        70% 30%, 82% 0%, 100% 35%,
+        100% 100%, 0% 100%
+    );
 }
 
-@keyframes fireGlowPulse {
-    0%   { opacity: 0.5; transform: translateX(-50%) scaleX(0.88); }
-    100% { opacity: 1;   transform: translateX(-50%) scaleX(1.12); }
+@keyframes catBreath {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
 }
 
-.fire-logs {
-    width: 58px;
-    height: 10px;
-    background: #5c3416;
-    border-radius: 5px;
+/* =========================================================
+   MAIN CONTENT — ALWAYS READABLE, ALWAYS ON TOP (UNCHANGED)
+   ========================================================= */
+
+.hut-content {
     position: relative;
-    z-index: 1;
+    z-index: 20;
+
+    max-width: 720px;
+    margin: 0 auto;
+
+    padding: 48px 40px;
+    margin-top: 72px;
+    margin-bottom: 80px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    /* soft scrim so text holds up no matter what's animating behind it */
+    background: radial-gradient(circle at 50% 30%,
+        rgba(10, 6, 4, 0.55),
+        rgba(8, 5, 3, 0.7) 70%,
+        rgba(6, 4, 3, 0.78) 100%);
+
+    border-radius: 28px;
+
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+
+    box-shadow: 0 0 60px rgba(0,0,0,0.4);
 }
 
-.fire-logs::before {
-    content: "";
-    position: absolute;
-    width: 52px;
-    height: 8px;
-    background: #7a4820;
-    border-radius: 4px;
-    top: -5px;
-    left: 3px;
-    transform: rotate(20deg);
+/* =========================================================
+   TEXT FEEL (UNCHANGED)
+   ========================================================= */
+
+.hut-content p {
+    font-size: 1.05rem;
+    line-height: 1.85;
+
+    color: rgba(255, 240, 220, 0.97);
+
+    text-shadow: 0 2px 14px rgba(0,0,0,0.85);
 }
 
-.fire-logs::after {
-    content: "";
-    position: absolute;
-    width: 52px;
-    height: 8px;
-    background: #7a4820;
-    border-radius: 4px;
-    top: -5px;
-    left: 3px;
-    transform: rotate(-20deg);
-}
+/* =========================================================
+   BUTTON (UNCHANGED)
+   ========================================================= */
 
-/* ─── VISION BOARD BUTTON ─── */
 .visionboard-btn {
-    background: transparent;
-    border: 1px solid rgba(210, 165, 80, 0.5);
-    color: rgba(255, 228, 160, 0.95);
-    padding: 10px 22px;
-    border-radius: 50px;
-    font-size: 0.95rem;
-    font-family: "Segoe UI", sans-serif;
+    align-self: flex-start;
+
+    padding: 10px 18px;
+
+    border-radius: 999px;
+
+    background: rgba(255, 200, 120, 0.1);
+    border: 1px solid rgba(255, 200, 120, 0.3);
+
+    color: rgba(255, 235, 205, 0.95);
+
     cursor: pointer;
-    width: fit-content;
-    letter-spacing: 0.04em;
-    transition: background 0.3s, border-color 0.3s, transform 0.2s, box-shadow 0.3s;
-    position: relative;
-    z-index: 5;
+
+    transition: 0.3s ease;
 }
 
 .visionboard-btn:hover {
-    background: rgba(200, 140, 40, 0.14);
-    border-color: rgba(255, 205, 100, 0.85);
     transform: translateY(-2px);
-    box-shadow: 0 0 20px rgba(220, 140, 30, 0.3);
+    background: rgba(255, 200, 120, 0.2);
 }
 
-/* ─── VISION BOARD OVERLAY ─── */
+/* =========================================================
+   OVERLAY — VISION BOARD MEMORY SPACE (UNCHANGED)
+   ========================================================= */
+
 .visionboard-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(8, 5, 2, 0.95);
+
     display: flex;
     align-items: center;
     justify-content: center;
+
+    background: rgba(0,0,0,0.85);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.5s ease;
-    z-index: 10;
+
+    transition: 0.4s ease;
+
+    z-index: 50;
 }
 
 .visionboard-overlay.visible {
@@ -265,64 +681,101 @@
 }
 
 .polaroid {
-    background: #fdf4e7;
-    padding: 16px 16px 50px 16px;
+    background: #fdf8f0;
+    padding: 16px 16px 24px;
     border-radius: 4px;
-    box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.7),
-        0 0 40px rgba(200, 100, 20, 0.2);
-    max-width: 380px;
-    width: 90%;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
     transform: rotate(-1.5deg);
-    animation: polaroidIn 0.5s ease forwards;
+    max-width: 90vw;
 }
 
 .polaroid img {
-    width: 100%;
-    height: auto;
     display: block;
+    max-width: 100%;
+    max-height: 60vh;
+    object-fit: cover;
     border-radius: 2px;
 }
 
 .polaroid-caption {
+    margin-top: 14px;
     text-align: center;
-    font-size: 1rem;
-    color: #5a3a1a;
-    margin: 12px 0 0 0;
     font-family: "Segoe UI", sans-serif;
-    font-style: italic;
+    color: #3a2a1f;
+    font-size: 0.95rem;
 }
 
 .polaroid-close {
     position: absolute;
     top: 24px;
-    right: 30px;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: rgba(255, 255, 255, 0.7);
-    width: 36px;
-    height: 36px;
+    right: 24px;
+
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    font-size: 0.85rem;
+
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.9);
+
+    font-size: 1.1rem;
     cursor: pointer;
-    transition: background 0.3s, color 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+    transition: 0.3s ease;
 }
 
 .polaroid-close:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
+    background: rgba(255,255,255,0.18);
+    transform: rotate(90deg);
 }
 
-@keyframes polaroidIn {
-    from { transform: rotate(-1.5deg) scale(0.85); opacity: 0; }
-    to   { transform: rotate(-1.5deg) scale(1);    opacity: 1; }
-}
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
 
-/* ─── MOBILE ─── */
-@media (max-width: 768px) {
-    .polaroid { max-width: 280px; }
-    .hut-lights { height: 55px; }
+@media (max-width: 640px) {
+    .hut-content {
+        padding: 32px 22px;
+        margin-top: 56px;
+    }
+
+    .hut-window {
+        width: 200px;
+        height: 130px;
+        top: 40px;
+    }
+
+    .hut-window-valance {
+        top: 30px;
+        width: 220px;
+    }
+
+    .hut-stove {
+        right: 16px;
+        transform: scale(0.75);
+        transform-origin: bottom right;
+    }
+
+    .hut-fire-glow {
+        right: 16px;
+    }
+
+    .hut-sofa {
+        display: none; /* too wide for small screens, avoid crowding the text */
+    }
+
+    .hut-rug {
+        width: 80%;
+        left: 50%;
+    }
+
+    .hut-cat {
+        bottom: 100px;
+    }
+
+    .hut-lights {
+        top: 50px;
+        left: 16px;
+        transform: scale(0.8);
+    }
 }

@@ -95,6 +95,7 @@ body {
     overflow-y: scroll;
     scroll-behavior: smooth;
     scroll-snap-type: y mandatory;
+    height: 100vh;
 }
 
 /* ===== BACKGROUND ===== */
@@ -119,7 +120,7 @@ body {
 
 /* ===== SCENES ===== */
 .panel {
-    height: 100vh;
+    min-height: 100vh;
     padding: 60px 80px;
     display: flex;
     align-items: flex-start;
@@ -195,7 +196,7 @@ p {
 
     .panel {
         padding: 40px 24px;
-        height: calc(100vh - 120px);
+        min-height: calc(100vh - 120px);
     }
 
     .panel p {

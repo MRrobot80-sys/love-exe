@@ -1,0 +1,574 @@
+/* =========================================================
+   OPEN WHEN — ENVELOPES ON A CLOTHESLINE, AT NIGHT
+
+   NOTE: base.css defines #open { background } and several
+   #open .timeline-item:nth-child(n) .timeline-dot / .ow-btn
+   color rules. This file uses #open.panel-scoped selectors
+   where needed to outrank those regardless of <link> order,
+   while keeping the per-item nth-child color hooks intact
+   (we read them via CSS variables set inline by open.js).
+   ========================================================= */
+
+#open.panel {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+
+    font-family: "Segoe UI", sans-serif;
+
+    background:
+        radial-gradient(circle at 50% 10%, rgba(180, 160, 255, 0.10), transparent 60%),
+        linear-gradient(180deg, #110a1c 0%, #0a0614 55%, #050308 100%) !important;
+
+    box-shadow: inset 0 0 160px rgba(0,0,0,0.8);
+}
+
+/* =========================================================
+   BASE LAYERS — DECOR NEVER INTERCEPTS CLICKS
+   ========================================================= */
+
+.open-window,
+.open-stars,
+.open-string-lights,
+.open-vignette {
+    pointer-events: none;
+}
+
+/* =========================================================
+   NIGHT WINDOW — SOFT MOONLIGHT BACKDROP
+   ========================================================= */
+
+.open-window {
+    position: absolute;
+    top: 50px;
+    right: 70px;
+
+    width: 160px;
+    height: 220px;
+
+    z-index: 1;
+
+    border: 8px solid #2a2035;
+    border-radius: 4px;
+
+    background: linear-gradient(180deg, #1a1430 0%, #2c2348 55%, #161025 100%);
+
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.5), 0 0 40px rgba(140,120,220,0.08);
+}
+
+/* moon glow in the window */
+.open-window::before {
+    content: "";
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+
+    background: radial-gradient(circle at 35% 35%, #fdf6e3, #d9cf9e 70%);
+    box-shadow: 0 0 30px rgba(250, 240, 200, 0.35);
+}
+
+/* window cross bars */
+.open-window::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(180deg, transparent calc(50% - 1px), #2a2035 calc(50% - 1px), #2a2035 calc(50% + 1px), transparent calc(50% + 1px)),
+        linear-gradient(90deg, transparent calc(50% - 1px), #2a2035 calc(50% - 1px), #2a2035 calc(50% + 1px), transparent calc(50% + 1px));
+}
+
+/* =========================================================
+   STARS — SCATTERED, GENTLE TWINKLE
+   ========================================================= */
+
+.open-stars {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.open-star {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(230, 220, 255, 0.85);
+    animation: starTwinkle var(--dur, 4s) ease-in-out infinite;
+}
+
+@keyframes starTwinkle {
+    0%, 100% { opacity: 0.25; }
+    50% { opacity: 0.9; }
+}
+
+/* =========================================================
+   STRING LIGHTS — THE LINE THE TIMELINE BORROWS
+   (purely decorative twinkle lights tracing above the line)
+   ========================================================= */
+
+.open-string-lights {
+    position: absolute;
+    top: 130px;
+    left: 6%;
+    right: 30%;
+    height: 1px;
+    z-index: 1;
+}
+
+.string-bulb {
+    position: absolute;
+    top: -3px;
+    width: 6px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ffe9b0;
+    box-shadow: 0 0 8px rgba(255, 220, 150, 0.6);
+    animation: stringFlicker 3.6s ease-in-out infinite;
+}
+
+@keyframes stringFlicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+}
+
+/* =========================================================
+   VIGNETTE
+   ========================================================= */
+
+.open-vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+
+    background: radial-gradient(circle at 30% 45%,
+        transparent 30%,
+        rgba(0,0,0,0.4) 100%);
+}
+
+/* =========================================================
+   CONTAINER + INTRO TEXT
+   ========================================================= */
+
+#open.panel .open-when-container {
+    position: relative;
+    z-index: 10;
+
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    max-width: 720px;
+}
+
+#open.panel .open-when-intro {
+    font-size: 1.4rem;
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+    line-height: 1.8;
+    margin: 0;
+}
+
+#open.panel .open-when-intro span {
+    color: rgba(220, 180, 255, 0.95) !important;
+    font-style: italic;
+}
+
+/* =========================================================
+   THE CLOTHESLINE
+   ========================================================= */
+
+#open.panel .open-when-timeline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-left: 20px;
+    margin-top: 20px;
+}
+
+/* the line itself becomes twine, with a gentle sag look via
+   a subtle curve illusion using a background gradient — kept
+   as a straight element for layout simplicity, styled rope-like */
+#open.panel .timeline-line {
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    bottom: 10px;
+    width: 3px;
+
+    background: repeating-linear-gradient(
+        0deg,
+        #c9b896 0px,
+        #c9b896 6px,
+        #a8956c 6px,
+        #a8956c 12px
+    ) !important;
+
+    border-radius: 2px;
+    box-shadow: 1px 0 2px rgba(0,0,0,0.3);
+}
+
+#open.panel .timeline-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 14px 0;
+    position: relative;
+}
+
+/* =========================================================
+   CLOTHESPIN — replaces the plain dot
+   Color is still driven by base.css's nth-child rules via
+   the existing .timeline-dot background/border-color, we
+   just give it a pin SHAPE on top of that color.
+   ========================================================= */
+
+#open.panel .timeline-dot {
+    position: relative;
+    width: 14px;
+    height: 22px;
+    min-width: 14px;
+    border-radius: 3px;
+
+    /* keep using base.css's per-item background/border-color;
+       just add the wood-clip silhouette via box-shadow notch */
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.25);
+
+    transition: transform 0.3s;
+    z-index: 2;
+}
+
+/* the little spring/notch detail on the clothespin */
+#open.panel .timeline-dot::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+
+    background: rgba(0,0,0,0.35);
+}
+
+#open.panel .timeline-item:hover .timeline-dot {
+    transform: scale(1.15) rotate(-4deg);
+}
+
+/* =========================================================
+   ENVELOPE TAGS — replaces the plain button
+   ========================================================= */
+
+#open.panel .ow-btn {
+    position: relative;
+
+    background: linear-gradient(160deg, #f2e6cf, #e3d3ad) !important;
+    border: 1px solid rgba(120, 95, 55, 0.4) !important;
+    border-radius: 4px;
+
+    color: #4a3a22 !important;
+
+    padding: 12px 20px 12px 18px;
+
+    font-size: 1rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+
+    cursor: pointer;
+    text-align: left;
+    letter-spacing: 0.01em;
+
+    box-shadow: 0 6px 14px rgba(0,0,0,0.35);
+    transform: rotate(-1deg);
+
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+/* alternate tilt direction for a hand-pinned, imperfect feel */
+#open.panel .timeline-item:nth-child(even) .ow-btn {
+    transform: rotate(1.2deg);
+}
+
+#open.panel .ow-btn:hover {
+    transform: translateY(-3px) rotate(0deg) !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.45);
+    background: linear-gradient(160deg, #f8efdc, #ecdcb8) !important;
+}
+
+/* a small triangular envelope-flap suggestion at the top of each tag */
+#open.panel .ow-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 14px;
+
+    background: linear-gradient(135deg, transparent 49%, rgba(120,95,55,0.18) 50%, transparent 51%),
+                linear-gradient(45deg, transparent 49%, rgba(120,95,55,0.18) 50%, transparent 51%);
+    background-size: 50% 100%;
+    background-position: left top, right top;
+    background-repeat: no-repeat;
+
+    pointer-events: none;
+}
+
+/* =========================================================
+   LETTER OVERLAY — A PULLED LETTER, TINTED BY CATEGORY
+   ========================================================= */
+
+.letter-overlay {
+    position: fixed;
+    top: 0;
+    left: 25%;
+    right: 0;
+    bottom: 0;
+
+    background: rgba(8, 4, 14, 0.97);
+
+    z-index: 100;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    padding: 80px 60px 60px 60px;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    overflow-y: auto;
+}
+
+.letter-overlay.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.back-btn {
+    position: fixed;
+    top: 30px;
+    left: calc(25% + 40px);
+
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(220, 180, 255, 0.3);
+    color: rgba(220, 180, 255, 0.85);
+
+    padding: 8px 18px;
+    border-radius: 8px;
+
+    font-size: 0.9rem;
+    font-family: "Segoe UI", sans-serif;
+    cursor: pointer;
+
+    transition: background 0.3s, color 0.3s;
+    z-index: 300;
+}
+
+.back-btn:hover {
+    background: rgba(220, 180, 255, 0.1);
+    color: #ffffff;
+}
+
+/* the letter itself, now styled as paper sitting inside the overlay */
+.letter-content {
+    position: relative;
+
+    max-width: 640px;
+    width: 100%;
+
+    padding: 48px 44px;
+
+    text-align: left;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+
+    color: #3a2c1d;
+    font-size: 1.12rem;
+    line-height: 1.9;
+
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 36px,
+            rgba(120, 90, 50, 0.07) 37px,
+            transparent 38px
+        ),
+        linear-gradient(165deg, #f6ecd9 0%, #efe2c8 55%, #e8dab9 100%);
+
+    border-radius: 3px;
+    box-shadow:
+        0 2px 0 rgba(255,255,255,0.3) inset,
+        0 28px 50px rgba(0,0,0,0.55);
+
+    transform: rotate(-0.4deg);
+
+    animation: fadeUp 0.6s ease forwards;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px) rotate(-0.4deg); }
+    to   { opacity: 1; transform: translateY(0) rotate(-0.4deg); }
+}
+
+/* =========================================================
+   PER-CATEGORY TINTS — set via classes added in open.js
+   (letter-overlay gets one of these when a letter opens)
+   ========================================================= */
+
+.letter-overlay.tint-sad .letter-content {
+    background-image:
+        repeating-linear-gradient(0deg, transparent 0px, transparent 36px, rgba(60, 90, 130, 0.08) 37px, transparent 38px),
+        linear-gradient(165deg, #e9f0f6 0%, #dbe6ee 55%, #cddce8 100%);
+    color: #2a3a4a;
+}
+
+.letter-overlay.tint-miss .letter-content {
+    background-image:
+        repeating-linear-gradient(0deg, transparent 0px, transparent 36px, rgba(110, 90, 140, 0.08) 37px, transparent 38px),
+        linear-gradient(165deg, #ece6f6 0%, #ded3ee 55%, #cfc0e3 100%);
+    color: #3a2c4a;
+}
+
+.letter-overlay.tint-birthday .letter-content {
+    background-image:
+        repeating-linear-gradient(0deg, transparent 0px, transparent 36px, rgba(160, 120, 40, 0.08) 37px, transparent 38px),
+        linear-gradient(165deg, #fbf0d8 0%, #f5e3b8 55%, #efd596 100%);
+    color: #4a3a18;
+}
+
+.letter-overlay.tint-3am .letter-content {
+    background-image:
+        repeating-linear-gradient(0deg, transparent 0px, transparent 36px, rgba(90, 100, 110, 0.08) 37px, transparent 38px),
+        linear-gradient(165deg, #e6eaee 0%, #d5dce2 55%, #c2ccd4 100%);
+    color: #2c3338;
+}
+
+.letter-overlay.tint-reminder .letter-content {
+    background-image:
+        repeating-linear-gradient(0deg, transparent 0px, transparent 36px, rgba(170, 90, 130, 0.08) 37px, transparent 38px),
+        linear-gradient(165deg, #fbe9f0 0%, #f5d6e4 55%, #efc3d8 100%);
+    color: #4a2c3a;
+}
+
+/* =========================================================
+   PHOTO CARD (unchanged behavior, lightly restyled border)
+   ========================================================= */
+
+.photo-card {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    z-index: 300;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.photo-card.visible {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+}
+
+.photo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.photo-card:hover {
+    transform: translateY(-4px) scale(1.05);
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+.photo-card-expanded {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.photo-card-expanded.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.photo-card-polaroid {
+    max-width: 320px;
+    width: 90%;
+    animation: polaroidIn 0.4s ease forwards;
+}
+
+@keyframes polaroidIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+/* =========================================================
+   MOBILE RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .back-btn {
+        left: 16px;
+        top: 16px;
+    }
+
+    .letter-overlay {
+        left: 0;
+        padding: 40px 24px;
+    }
+
+    .letter-content {
+        font-size: 1rem;
+        line-height: 1.8;
+        padding: 32px 26px;
+        overflow-y: auto;
+        max-height: 80vh;
+    }
+
+    #open.panel .open-when-container {
+        gap: 16px;
+    }
+
+    #open.panel .ow-btn {
+        font-size: 0.9rem;
+    }
+
+    .open-window {
+        width: 110px;
+        height: 150px;
+        top: 30px;
+        right: 24px;
+    }
+
+    .photo-card {
+        bottom: 16px;
+        right: 16px;
+        width: 60px;
+        height: 60px;
+    }
+}

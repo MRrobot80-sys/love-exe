@@ -1,122 +1,118 @@
-// ===== ANIMATED CAMPFIRE =====
-const campfireScene = document.createElement("div");
-campfireScene.classList.add("campfire-scene");
-campfireScene.innerHTML = `
-    <div class="campfire">
-        <div class="fire-wrap">
-            <div class="flame fl2"></div>
-            <div class="flame fl3"></div>
-            <div class="flame fl1"></div>
-            <div class="flame fl4"></div>
-            <div class="flame fl5"></div>
-            <div class="fire-glow-spot"></div>
-        </div>
-        <div class="fire-logs"></div>
-    </div>
-`;
+const m2Panel = document.getElementById("m2");
 const hutContent = document.querySelector(".hut-content");
-hutContent.insertBefore(campfireScene, hutContent.firstChild);
 
-// ===== VISION BOARD =====
-const visionBoardBtn     = document.getElementById("visionBoardBtn");
-const visionBoardOverlay = document.getElementById("visionBoardOverlay");
-const visionBoardClose   = document.getElementById("visionBoardClose");
+/* =========================================================
+   STATIC DECOR — injected so the HTML doesn't need editing
+   ========================================================= */
+function injectDecor() {
+    // simple, childless decor elements
+    const simpleDecor = ["hut-walls", "hut-rug", "hut-cat"];
 
-visionBoardBtn.addEventListener("click",  () => visionBoardOverlay.classList.add("visible"));
-visionBoardClose.addEventListener("click", () => visionBoardOverlay.classList.remove("visible"));
+    simpleDecor.forEach((className) => {
+        if (m2Panel.querySelector(`.${className}`)) return; // don't duplicate
+        const el = document.createElement("div");
+        el.classList.add(className);
+        m2Panel.insertBefore(el, hutContent);
+    });
 
-// ===== STRING LIGHTS =====
-const hutLights = document.getElementById("hutLights");
+    // window valance (sits with the window, just above hutWindow in the DOM)
+    if (!m2Panel.querySelector(".hut-window-valance")) {
+        const valance = document.createElement("div");
+        valance.classList.add("hut-window-valance");
+        m2Panel.insertBefore(valance, hutContent);
+    }
 
-const bulbColours = [
-    { bg: "#ffcc44", glow: "rgba(255,200,50,0.85)"  },   // warm amber
-    { bg: "#ff8c30", glow: "rgba(255,130,30,0.80)"  },   // orange
-    { bg: "#ffe566", glow: "rgba(255,230,80,0.80)"  },   // yellow
-    { bg: "#a8e06a", glow: "rgba(150,220,90,0.70)"  },   // soft green
-    { bg: "#ffb060", glow: "rgba(255,165,60,0.80)"  },   // peach
-    { bg: "#ff6b6b", glow: "rgba(255,90,90,0.70)"   },   // warm red
-];
+    // wood stove, with its glass door / handle / base as children
+    if (!m2Panel.querySelector(".hut-stove")) {
+        const stove = document.createElement("div");
+        stove.classList.add("hut-stove");
 
-const NUM_BULBS = 20;
+        const base = document.createElement("div");
+        base.classList.add("stove-base");
 
-for (let i = 0; i < NUM_BULBS; i++) {
-    const bulb  = document.createElement("div");
-    const c     = bulbColours[i % bulbColours.length];
-    const pct   = i / (NUM_BULBS - 1);
-    const left  = pct * 100;
-    // Natural catenary droop — deepest in the middle
-    const droop = Math.sin(pct * Math.PI) * 16;
+        const glass = document.createElement("div");
+        glass.classList.add("stove-glass");
 
-    bulb.classList.add("hut-bulb");
-    bulb.style.left       = `calc(${left}% - 6px)`;
-    bulb.style.top        = `${18 + droop}px`;
-    bulb.style.background = c.bg;
-    bulb.style.boxShadow  = `0 0 10px 4px ${c.glow}, 0 0 22px 8px ${c.glow.replace('0.8', '0.35').replace('0.7','0.3')}`;
-    bulb.style.setProperty("--flicker-dur",   `${2 + Math.random() * 4}s`);
-    bulb.style.setProperty("--flicker-delay", `${Math.random() * 5}s`);
+        const handle = document.createElement("div");
+        handle.classList.add("stove-handle");
 
-    hutLights.appendChild(bulb);
+        stove.appendChild(base);
+        stove.appendChild(glass);
+        stove.appendChild(handle);
+
+        m2Panel.insertBefore(stove, hutContent);
+    }
+
+    // red sectional sofa with throw pillows
+    if (!m2Panel.querySelector(".hut-sofa")) {
+        const sofa = document.createElement("div");
+        sofa.classList.add("hut-sofa");
+
+        for (let i = 0; i < 3; i++) {
+            const pillow = document.createElement("div");
+            pillow.classList.add("sofa-pillow");
+            sofa.appendChild(pillow);
+        }
+
+        m2Panel.insertBefore(sofa, hutContent);
+    }
 }
+injectDecor();
 
-// ===== EMBER PARTICLES =====
-const hutEmbers   = document.getElementById("hutEmbers");
-const m2Panel     = document.getElementById("m2");
-let emberInterval = null;
-
+/* =========================================================
+   EMBERS — DRIFTING UP FROM THE STOVE AREA
+   ========================================================= */
+const hutEmbers = document.getElementById("hutEmbers");
 function spawnEmber() {
     const ember = document.createElement("div");
     ember.classList.add("hut-ember");
-
-    const size  = Math.random() * 5 + 3;             // 3–8px — chunky enough to see
-    const left  = 15 + Math.random() * 70;            // middle 70% of panel
-    const dur   = 4 + Math.random() * 5;              // 4–9s
-    const drift = (Math.random() - 0.5) * 100;
-    const delay = Math.random() * 0.8;
-
-    // Alternating orange / gold / red
-    const colours = [
-        `rgba(255, ${100 + Math.floor(Math.random()*80)}, 10, 0.95)`,
-        `rgba(255, ${180 + Math.floor(Math.random()*60)}, 30, 0.95)`,
-        `rgba(255, 80, 10, 0.9)`,
-    ];
-    const col = colours[Math.floor(Math.random() * colours.length)];
-
-    ember.style.cssText = `
-        width: ${size}px;
-        height: ${size}px;
-        left: ${left}%;
-        bottom: 0;
-        background: ${col};
-        box-shadow: 0 0 ${size * 2.5}px ${size}px ${col};
-        --ember-dur: ${dur}s;
-        --ember-delay: ${delay}s;
-        --ember-drift: ${drift}px;
-    `;
-
+    const size = 2 + Math.random() * 3;
+    ember.style.width = size + "px";
+    ember.style.height = size + "px";
+    // embers drift up from roughly where the stove sits (right side)
+    ember.style.left = `calc(85% + ${(Math.random() - 0.5) * 60}px)`;
+    ember.style.bottom = "140px";
+    ember.style.background = "rgba(255,140,40,0.8)";
+    ember.style.setProperty("--dur", 5 + Math.random() * 3 + "s");
+    ember.style.setProperty("--drift", (Math.random() - 0.5) * 40 + "px");
     hutEmbers.appendChild(ember);
-    setTimeout(() => ember.remove(), (dur + delay + 1) * 1000);
+    setTimeout(() => ember.remove(), 9000);
 }
+const emberInterval = setInterval(spawnEmber, 1200);
 
-function startEmbers() {
-    if (emberInterval) return;
-    // Burst of embers immediately so it's not empty on entry
-    for (let i = 0; i < 8; i++) setTimeout(spawnEmber, i * 150);
-    emberInterval = setInterval(spawnEmber, 350);
-}
+/* =========================================================
+   VISION BOARD
+   ========================================================= */
+const visionBoardBtn = document.getElementById("visionBoardBtn");
+const visionBoardOverlay = document.getElementById("visionBoardOverlay");
+const visionBoardClose = document.getElementById("visionBoardClose");
 
-function stopEmbers() {
-    clearInterval(emberInterval);
-    emberInterval = null;
-}
+visionBoardBtn.addEventListener("click", () => {
+    visionBoardOverlay.classList.add("visible");
+});
+visionBoardClose.addEventListener("click", () => {
+    visionBoardOverlay.classList.remove("visible");
+});
 
-const hutObserver = new IntersectionObserver(
-    (entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) startEmbers();
-            else                       stopEmbers();
+/* close on backdrop click too, not just the X */
+visionBoardOverlay.addEventListener("click", (e) => {
+    if (e.target === visionBoardOverlay) {
+        visionBoardOverlay.classList.remove("visible");
+    }
+});
+
+/* =========================================================
+   CLEANUP — stop spawning embers if this panel scrolls far
+   out of view, so background tabs/sections don't keep working
+   ========================================================= */
+if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) {
+                clearInterval(emberInterval);
+                observer.disconnect();
+            }
         });
-    },
-    { threshold: 0.2 }
-);
-
-hutObserver.observe(m2Panel);
+    }, { threshold: 0 });
+    observer.observe(m2Panel);
+}

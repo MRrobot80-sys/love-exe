@@ -1,32 +1,161 @@
-/* ===== HAND-DRAWN SUNFLOWER STICKERS (Sunflower section) ===== */
-.sunflower {
+/* ===== SUNFLOWER SECTION ===== */
+
+#m1 {
+    position: relative;
+    overflow: hidden;
+}
+
+/* ─── LIGHT RAYS ─── */
+.sf-rays {
     position: absolute;
-    opacity: 0;
+    top: -20%;
+    right: -10%;
+    width: 140%;
+    height: 140%;
+    pointer-events: none;
+    z-index: 1;
+    animation: raysSpin 40s linear infinite;
+    transform-origin: 72% 18%;
+    opacity: 0.13;
+}
+
+.sf-ray {
+    position: absolute;
+    top: 18%;
+    right: 28%;
+    width: 200%;
+    height: 3px;
+    transform-origin: 0% 50%;
+    background: linear-gradient(to right, rgba(255, 220, 60, 0.9), transparent);
+    border-radius: 2px;
+}
+
+@keyframes raysSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+/* ─── SUN ─── */
+.sf-sun {
+    position: absolute;
+    top: 8%;
+    right: 12%;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 240, 120, 0.95) 0%, rgba(255, 210, 40, 0.7) 40%, transparent 75%);
     pointer-events: none;
     z-index: 2;
-    -webkit-user-select: none;
-    user-select: none;
-    animation: stickerFloat var(--dur, 8s) ease-in forwards;
+    animation: sunPulse 5s ease-in-out infinite;
+    filter: blur(2px);
+}
+
+@keyframes sunPulse {
+    0%, 100% { opacity: 0.75; transform: scale(1); }
+    50%       { opacity: 1;    transform: scale(1.1); }
+}
+
+/* ─── GROUND GLOW ─── */
+.sf-ground-glow {
+    position: absolute;
+    bottom: -30px;
+    left: -20%;
+    right: -20%;
+    height: 260px;
+    background: radial-gradient(
+        ellipse 65% 100% at 50% 100%,
+        rgba(255, 185, 20, 0.35)  0%,
+        rgba(200, 120, 0, 0.18)   35%,
+        rgba(140, 70,  0, 0.08)   60%,
+        transparent                82%
+    );
+    pointer-events: none;
+    z-index: 2;
+    animation: groundBreath 5s ease-in-out infinite;
+}
+
+@keyframes groundBreath {
+    0%, 100% { opacity: 0.8; transform: scaleX(1); }
+    50%       { opacity: 1;   transform: scaleX(1.06); }
+}
+
+/* ─── STANDING SUNFLOWERS ─── */
+.sf-standing {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 55vh;
+    pointer-events: none;
+    z-index: 3;
+    /* Fade out the top 40% so flowers blend away and don't cover text */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 40%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 40%);
+}
+
+.sf-standing-flower {
+    position: absolute;
+    bottom: 0;
+    width: 60px;
+    opacity: 0.28;           /* low opacity — decorative, not distracting */
+    transform-origin: bottom center;
+    animation: standingSway 6s ease-in-out infinite;
+}
+
+@keyframes standingSway {
+    0%, 100% { transform: rotate(0deg); }
+    25%       { transform: rotate(1.5deg); }
+    75%       { transform: rotate(-1.5deg); }
+}
+
+/* ─── POLLEN PARTICLES ─── */
+.sf-pollen-wrap {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 4;
+    overflow: hidden;
+}
+
+.sf-pollen {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    animation: pollenDrift var(--pd-dur, 10s) ease-in-out forwards;
+    animation-delay: var(--pd-delay, 0s);
+}
+
+@keyframes pollenDrift {
+    0%   { opacity: 0;    transform: translateY(0)     translateX(0)                     scale(1); }
+    10%  { opacity: 0.85; }
+    80%  { opacity: 0.5; }
+    100% { opacity: 0;    transform: translateY(-80vh) translateX(var(--pd-drift, 40px)) scale(0.5); }
+}
+
+/* ─── FALLING SUNFLOWERS ─── */
+.sf-falling {
+    position: absolute;
+    pointer-events: none;
+    z-index: 6;
+    opacity: 0;
+    animation: sfFall var(--sf-dur, 15s) ease-in forwards;
     will-change: transform, opacity;
 }
 
-@keyframes stickerFloat {
-    0% {
-        opacity: 0;
-        transform: translateY(0) translateX(0) rotate(0deg) scale(0.75);
-    }
-    8% {
-        opacity: 0.95;
-    }
-    50% {
-        transform: translateY(-50vh) translateX(var(--drift, 30px)) rotate(calc(var(--rotate, 15deg) * 0.5)) scale(1.05);
-        opacity: 0.9;
-    }
-    88% {
-        opacity: 0.7;
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-100vh) translateX(var(--drift, 30px)) rotate(var(--rotate, 15deg)) scale(0.9);
-    }
+/* We set animation-duration via inline style, use the CSS var as fallback */
+.sf-falling { animation-duration: inherit; }
+
+@keyframes sfFall {
+    0%   { opacity: 0;    transform: translateY(0)     translateX(0)                      rotate(0deg); }
+    8%   { opacity: 0.85; }
+    90%  { opacity: 0.7; }
+    100% { opacity: 0;    transform: translateY(110vh) translateX(var(--sf-drift, 30px))  rotate(var(--sf-rotate, 20deg)); }
+}
+
+/* ─── MOBILE ─── */
+@media (max-width: 768px) {
+    .sf-sun { width: 80px; height: 80px; }
+    .sf-standing { height: 110px; }
+    .sf-standing-flower { opacity: 0.2; }
 }

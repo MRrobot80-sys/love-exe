@@ -1,26 +1,362 @@
-/* ===== MUSIC BUTTON (boot/intro section) ===== */
-.boot-content {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
+/* =========================================================
+   THE BEGINNING — A LETTER WRITTEN AT NIGHT
+
+   NOTE: base.css defines #boot { background } and #boot p { color, etc }
+   at specificity (1,0,0) and (1,0,1). To win regardless of <link> order
+   in the HTML <head>, this file targets #boot.panel (1,1,0) and
+   #boot.panel .boot-content p (1,2,1) — both outrank base.css's plain
+   #boot / #boot p rules no matter which stylesheet loads second.
+   ========================================================= */
+
+#boot.panel {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+
+    font-family: "Segoe UI", sans-serif;
+
+    background:
+        radial-gradient(circle at 22% 35%, rgba(255, 200, 130, 0.10), transparent 55%),
+        linear-gradient(180deg, #1c140f 0%, #100b08 55%, #070504 100%) !important;
+
+    box-shadow: inset 0 0 160px rgba(0,0,0,0.85);
 }
 
+/* =========================================================
+   BASE LAYERS — DECOR NEVER INTERCEPTS CLICKS
+   ========================================================= */
+
+.boot-desk,
+.boot-candle,
+.boot-quill,
+.boot-dust,
+.boot-vignette {
+    pointer-events: none;
+}
+
+/* =========================================================
+   DESK SURFACE — DARK WOOD GRAIN BELOW THE LETTER
+   ========================================================= */
+
+.boot-desk {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 45%;
+
+    z-index: 1;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            rgba(0,0,0,0.12) 0px,
+            rgba(0,0,0,0.12) 1px,
+            transparent 1px,
+            transparent 90px
+        ),
+        linear-gradient(180deg, #2a1c12 0%, #15100a 100%);
+
+    opacity: 0.9;
+}
+
+/* =========================================================
+   CANDLE — THE LIGHT SHE WROTE THIS BY
+   ========================================================= */
+
+.boot-candle {
+    position: absolute;
+    bottom: 6%;
+    left: 8%;
+
+    width: 46px;
+    height: 130px;
+
+    z-index: 5;
+
+    filter: drop-shadow(0 10px 14px rgba(0,0,0,0.6));
+}
+
+/* candle body */
+.boot-candle::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 12px;
+
+    width: 22px;
+    height: 90px;
+
+    background: linear-gradient(180deg, #f3e6cc, #d8c39e);
+    border-radius: 3px 3px 2px 2px;
+
+    box-shadow: inset -4px 0 8px rgba(0,0,0,0.12);
+}
+
+/* flame */
+.boot-candle::after {
+    content: "";
+    position: absolute;
+    bottom: 90px;
+    left: 17px;
+
+    width: 12px;
+    height: 22px;
+
+    background: radial-gradient(circle at 50% 100%,
+        #fff3c4 0%,
+        #ffb347 45%,
+        #ff7a1a 75%,
+        transparent 100%);
+
+    border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%;
+
+    animation: candleFlicker 2.4s ease-in-out infinite;
+}
+
+@keyframes candleFlicker {
+    0%, 100% { transform: scaleY(1) scaleX(1) translateX(0); opacity: 0.95; }
+    35% { transform: scaleY(1.08) scaleX(0.92) translateX(1px); opacity: 1; }
+    60% { transform: scaleY(0.95) scaleX(1.05) translateX(-1px); opacity: 0.9; }
+}
+
+/* warm pool of candlelight cast onto the desk + paper */
+.boot-candle-glow {
+    position: absolute;
+    bottom: 0;
+    left: 4%;
+
+    width: 480px;
+    height: 420px;
+
+    z-index: 2;
+
+    background: radial-gradient(circle at 30% 70%,
+        rgba(255, 200, 120, 0.16),
+        rgba(255, 160, 80, 0.07) 50%,
+        transparent 75%);
+
+    animation: candleGlowPulse 4.5s ease-in-out infinite;
+}
+
+@keyframes candleGlowPulse {
+    0%, 100% { opacity: 0.85; }
+    50% { opacity: 1; }
+}
+
+/* =========================================================
+   QUILL / PEN — RESTING NEAR THE LETTER
+   ========================================================= */
+
+.boot-quill {
+    position: absolute;
+    bottom: 8%;
+    right: 9%;
+
+    width: 130px;
+    height: 36px;
+
+    z-index: 6;
+
+    transform: rotate(-22deg);
+    transform-origin: left center;
+
+    filter: drop-shadow(0 6px 8px rgba(0,0,0,0.4));
+}
+
+/* pen body */
+.boot-quill::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 14px;
+
+    width: 110px;
+    height: 8px;
+
+    background: linear-gradient(90deg, #caa24a, #8a6a2e 85%, #5c4720);
+    border-radius: 4px;
+}
+
+/* nib */
+.boot-quill::after {
+    content: "";
+    position: absolute;
+    left: 104px;
+    top: 12px;
+
+    width: 22px;
+    height: 12px;
+
+    background: linear-gradient(90deg, #d8d8d8, #9a9a9a);
+    border-radius: 0 6px 6px 0;
+    clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+}
+
+/* a small ink smudge beneath the pen */
+.boot-quill-ink {
+    position: absolute;
+    bottom: calc(8% - 6px);
+    right: calc(9% + 18px);
+
+    width: 30px;
+    height: 14px;
+
+    z-index: 5;
+
+    background: radial-gradient(ellipse at 50% 50%, rgba(20, 15, 35, 0.55), transparent 75%);
+    border-radius: 50%;
+}
+
+/* =========================================================
+   DUST / LIGHT MOTES DRIFTING IN THE CANDLELIGHT
+   ========================================================= */
+
+.boot-dust {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+}
+
+.boot-mote {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 220, 170, 0.5);
+    opacity: 0;
+    animation: moteDrift var(--dur, 9s) ease-in-out forwards;
+}
+
+@keyframes moteDrift {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    15% { opacity: 0.8; }
+    100% {
+        transform: translateY(-70vh) translateX(var(--drift, 30px));
+        opacity: 0;
+    }
+}
+
+/* =========================================================
+   VIGNETTE — KEEPS THE ROOM FEELING CLOSE AND PRIVATE
+   ========================================================= */
+
+.boot-vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 7;
+
+    background: radial-gradient(circle at 50% 45%,
+        transparent 35%,
+        rgba(0,0,0,0.45) 100%);
+}
+
+/* =========================================================
+   THE LETTER — PAPER CARD, ALWAYS ON TOP, ALWAYS READABLE
+   (#boot.panel .boot-content — specificity 1,2,0 — outranks base.css's
+   .panel at 0,1,0, so this paper styling always wins)
+   ========================================================= */
+
+#boot.panel .boot-content {
+    position: relative;
+    z-index: 20;
+
+    max-width: 680px;
+    margin: 90px auto 90px;
+
+    padding: 56px 52px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 38px,
+            rgba(120, 90, 50, 0.07) 39px,
+            transparent 40px
+        ),
+        radial-gradient(circle at 85% 8%, rgba(0,0,0,0.04), transparent 40%),
+        linear-gradient(165deg, #f6ecd9 0%, #efe2c8 55%, #e8dab9 100%) !important;
+
+    border-radius: 3px;
+
+    box-shadow:
+        0 2px 0 rgba(255,255,255,0.3) inset,
+        0 28px 50px rgba(0,0,0,0.55),
+        0 4px 10px rgba(0,0,0,0.3) !important;
+
+    transform: rotate(-0.6deg);
+}
+
+/* torn / deckled paper edge feel along the top and bottom */
+.boot-content::before,
+.boot-content::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 10px;
+
+    background-image: radial-gradient(circle, #f6ecd9 60%, transparent 62%);
+    background-size: 16px 16px;
+    background-repeat: repeat-x;
+}
+
+.boot-content::before {
+    top: -5px;
+    background-position: 0 -8px;
+}
+
+.boot-content::after {
+    bottom: -5px;
+    background-position: 0 8px;
+}
+
+/* =========================================================
+   LETTER TEXT — INK ON PAPER
+   (uses #boot.panel .boot-content p — specificity 1,2,1 — to beat
+   base.css's #boot p at 1,0,1, regardless of stylesheet load order)
+   ========================================================= */
+
+#boot.panel .boot-content p {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+
+    font-size: 1.12rem;
+    line-height: 1.95;
+
+    color: #3a2c1d !important;
+
+    text-shadow: 0 1px 0 rgba(255,255,255,0.4) !important;
+}
+
+/* =========================================================
+   MUSIC BUTTON — RESTYLED AS A WAX SEAL ON THE LETTER
+   ========================================================= */
+
 .music-btn {
+    align-self: flex-start;
+
     display: flex;
     align-items: center;
     gap: 14px;
+
     background: transparent;
-    border: 1px solid rgba(220, 180, 255, 0.3);
+    border: 1px solid rgba(120, 50, 40, 0.35);
     border-radius: 50px;
+
     padding: 10px 22px 10px 16px;
+
     cursor: pointer;
     width: fit-content;
+
     transition: background 0.3s, border-color 0.3s, transform 0.2s;
 }
 
 .music-btn:hover {
-    background: rgba(220, 180, 255, 0.08);
-    border-color: rgba(220, 180, 255, 0.7);
+    background: rgba(140, 40, 30, 0.08);
+    border-color: rgba(140, 40, 30, 0.55);
     transform: translateY(-2px);
 }
 
@@ -28,41 +364,83 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: rgba(220, 180, 255, 0.15);
-    border: 1px solid rgba(220, 180, 255, 0.5);
+
+    background: radial-gradient(circle at 35% 30%, #b5402f, #6e1f16);
+    border: 1px solid rgba(120, 40, 30, 0.5);
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     font-size: 0.85rem;
-    color: rgba(220, 180, 255, 1);
+    color: #f3e0c8;
+
     transition: background 0.3s;
     flex-shrink: 0;
+
+    box-shadow: inset 0 -2px 4px rgba(0,0,0,0.35), 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .music-btn:hover .music-icon {
-    background: rgba(220, 180, 255, 0.25);
+    background: radial-gradient(circle at 35% 30%, #c44d39, #7e251a);
 }
 
 .music-label {
     font-size: 0.9rem;
-    font-family: "Segoe UI", sans-serif;
-    color: rgba(220, 180, 255, 0.8);
-    letter-spacing: 0.05em;
+    font-family: Georgia, "Times New Roman", serif;
     font-style: italic;
+
+    color: #5a3a26;
+    letter-spacing: 0.03em;
 }
 
-/* Pulsing ring when playing */
+/* pulsing ring when playing */
 .music-btn.playing {
-    border-color: rgba(220, 180, 255, 0.6);
+    border-color: rgba(140, 40, 30, 0.5);
     animation: musicPulse 2s ease-in-out infinite;
 }
 
 .music-btn.playing .music-icon {
-    background: rgba(220, 180, 255, 0.3);
+    background: radial-gradient(circle at 35% 30%, #c44d39, #7e251a);
 }
 
 @keyframes musicPulse {
-    0%   { box-shadow: 0 0 0 0 rgba(220, 180, 255, 0.3); }
-    50%  { box-shadow: 0 0 0 8px rgba(220, 180, 255, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(220, 180, 255, 0); }
+    0%   { box-shadow: 0 0 0 0 rgba(140, 40, 30, 0.3); }
+    50%  { box-shadow: 0 0 0 8px rgba(140, 40, 30, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(140, 40, 30, 0); }
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 640px) {
+    #boot.panel .boot-content {
+        margin: 56px auto 56px;
+        padding: 36px 26px;
+    }
+
+    #boot.panel .boot-content p {
+        font-size: 1.02rem;
+    }
+
+    .boot-candle {
+        left: 4%;
+        transform: scale(0.8);
+        transform-origin: bottom left;
+    }
+
+    .boot-candle-glow {
+        width: 320px;
+        height: 320px;
+    }
+
+    .boot-quill {
+        right: 4%;
+        transform: rotate(-22deg) scale(0.8);
+    }
+
+    .boot-quill-ink {
+        right: calc(4% + 10px);
+    }
 }
