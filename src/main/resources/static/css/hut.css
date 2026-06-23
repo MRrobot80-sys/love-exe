@@ -1,0 +1,108 @@
+/* ===== THE HUT - MEMORY TWO ===== */
+.hut-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.visionboard-btn {
+    background: transparent;
+    border: 1px solid rgba(180, 230, 180, 0.35);
+    color: rgba(200, 240, 200, 0.85);
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-family: "Segoe UI", sans-serif;
+    cursor: pointer;
+    width: fit-content;
+    letter-spacing: 0.04em;
+    transition: background 0.3s, border-color 0.3s, transform 0.2s;
+}
+
+.visionboard-btn:hover {
+    background: rgba(180, 230, 180, 0.08);
+    border-color: rgba(180, 230, 180, 0.7);
+    transform: translateY(-2px);
+}
+
+/* ===== VISION BOARD POLAROID ===== */
+.visionboard-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 12, 8, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    z-index: 10;
+}
+
+.visionboard-overlay.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.polaroid {
+    background: #fdf8f0;
+    padding: 16px 16px 50px 16px;
+    border-radius: 4px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    max-width: 380px;
+    width: 90%;
+    transform: rotate(-1.5deg);
+    animation: polaroidIn 0.5s ease forwards;
+}
+
+.polaroid img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 2px;
+}
+
+.polaroid-caption {
+    text-align: center;
+    font-size: 1rem;
+    color: #5a4a3a;
+    margin: 12px 0 0 0;
+    font-family: "Segoe UI", sans-serif;
+    font-style: italic;
+    max-width: 100%;
+}
+
+.polaroid-close {
+    position: absolute;
+    top: 24px;
+    right: 30px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.7);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.polaroid-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+@keyframes polaroidIn {
+    from { transform: rotate(-1.5deg) scale(0.85); opacity: 0; }
+    to   { transform: rotate(-1.5deg) scale(1);    opacity: 1; }
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .polaroid {
+        max-width: 280px;
+    }
+}

@@ -1,0 +1,103 @@
+/* ===== THE BENCH - MEMORY THREE ===== */
+.bench-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.bench-tag {
+    display: inline-block;
+    width: fit-content;
+    font-size: 0.85rem;
+    font-family: "Segoe UI", sans-serif;
+    color: rgba(180, 210, 255, 0.7);
+    border: 1px solid rgba(180, 210, 255, 0.25);
+    padding: 6px 16px;
+    border-radius: 50px;
+    letter-spacing: 0.08em;
+    font-style: italic;
+    animation: benchGlow 3s ease-in-out infinite;
+}
+
+@keyframes benchGlow {
+    0%   { 
+        box-shadow: 0 0 6px rgba(180, 210, 255, 0.15);
+        border-color: rgba(180, 210, 255, 0.25);
+        color: rgba(180, 210, 255, 0.7);
+    }
+    50%  { 
+        box-shadow: 0 0 16px rgba(180, 210, 255, 0.35);
+        border-color: rgba(180, 210, 255, 0.6);
+        color: rgba(180, 210, 255, 1);
+    }
+    100% { 
+        box-shadow: 0 0 6px rgba(180, 210, 255, 0.15);
+        border-color: rgba(180, 210, 255, 0.25);
+        color: rgba(180, 210, 255, 0.7);
+    }
+}
+
+/* ===== BENCH LAYOUT ===== */
+.bench-layout {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    width: 100%;
+}
+
+.bench-photo-wrap {
+    flex-shrink: 0;
+    background: #fdf8f0;
+    padding: 12px 12px 44px 12px;
+    border-radius: 3px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7),
+                0 0 30px rgba(180, 210, 255, 0.15);
+    transform: rotate(2deg);
+    animation: benchPhotoIn 1s ease forwards;
+    opacity: 0;
+    max-width: 260px;
+}
+
+.bench-photo-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 2px;
+}
+
+.bench-photo-caption {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #5a4a3a;
+    margin: 10px 0 0 0;
+    font-family: "Segoe UI", sans-serif;
+    font-style: italic;
+}
+
+@keyframes benchPhotoIn {
+    from {
+        opacity: 0;
+        transform: rotate(2deg) translateY(30px) scale(0.92);
+    }
+    to {
+        opacity: 1;
+        transform: rotate(2deg) translateY(0) scale(1);
+    }
+}
+
+.panel#m3.active .bench-photo-wrap {
+    animation: benchPhotoIn 1s ease 0.4s forwards;
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .bench-layout {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .bench-photo-wrap {
+        max-width: 220px;
+        align-self: center;
+    }
+}
